@@ -38,6 +38,7 @@ from zipline.pipeline.filters import (
     Filter,
     NumExprFilter,
     PercentileFilter,
+    MaximumFilter,
     NotNullFilter,
     NullFilter,
 )
@@ -1065,6 +1066,8 @@ class Factor(RestrictedDTypeMixin, ComputableTerm):
         -------
         filter : zipline.pipeline.filters.Filter
         """
+        if N == 1:
+            return self.maximum(mask=mask, groupby=groupby)
         return self.rank(ascending=False, mask=mask, groupby=groupby) <= N
 
     def bottom(self, N, mask=NotSpecified, groupby=NotSpecified):
